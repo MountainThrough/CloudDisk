@@ -1,0 +1,15 @@
+version: '3'
+
+services:
+  rabbit:
+    image: rabbitmq:management
+    container_name: rabbit
+    hostname: rabbitsvr
+    ports:
+      - "5672:5672" # AMQP protocol port (used by clients)
+      - "15672:15672" # RabbitMQ Management UI
+      - "25672:25672" # Erlang distribution for clustering
+    environment:
+      # Optional: enable management plugin automatically
+      RABBITMQ_DEFAULT_USER: admin
+      RABBITMQ_DEFAULT_PASS: admin

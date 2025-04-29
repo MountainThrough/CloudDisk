@@ -1,0 +1,29 @@
+version: '3'
+services:
+  consul1:
+    image: hashicorp/consul:latest
+    container_name: consul1
+    ports:
+      - "8500:8500"
+      - "8301:8301"
+      - "8302:8302"
+      - "8600:8600/udp"
+    command: agent -server -bootstrap-expect 3 -ui -bind=0.0.0.0 -client=0.0.0.0 -node=consul1
+
+  consul2:
+    image: hashicorp/consul:latest
+    container_name: consul2
+    ports:
+      - "8501:8500"
+    depends_on:
+      - consul1
+    command: agent -server -ui -bind=0.0.0.0 -client=0.0.0.0 -node=consul2 -join=consul1
+
+  consul3:
+    image: hashicorp/consul:latest
+    container_name: consul3
+    ports:
+      - "8502:8500"
+    depends_on:
+      - consul1
+    command: agent -server -ui -bind=0.0.0.0 -client=0.0.0.0 -node=consul3 -join=consul1
