@@ -1,0 +1,7 @@
+[
+{
+  "directory": "/home/mountain/workspace/CloudDisk/Draft00/Test/build",
+  "command": "/usr/bin/g++   -g -std=gnu++11 -o CMakeFiles/tain.dir/5_series_context.cpp.o -c /home/mountain/workspace/CloudDisk/Draft00/Test/Draft01/5_series_context.cpp",
+  "file": "/home/mountain/workspace/CloudDisk/Draft00/Test/Draft01/5_series_context.cpp"
+}
+]

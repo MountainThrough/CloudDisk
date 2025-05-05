@@ -1,0 +1,31 @@
+2025-05-01 09:42:42,678 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():29] CloudDiskServer start success!
+2025-05-01 09:53:37,093 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:operator()():92] SignupService ip = 127.0.0.1, port = 1412
+2025-05-01 10:15:33,736 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:operator()():92] SignupService ip = 127.0.0.1, port = 1412
+2025-05-01 16:35:31,553 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():30] CloudDiskServer start success!
+2025-05-01 16:35:47,235 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:operator()():95] SignupService ip = 127.0.0.1, port = 1412
+2025-05-01 16:35:47,265 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/signup_server/signup_server.cc:Signup():23] username: qwer password: 1234
+2025-05-01 16:35:47,271 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/signup_server/signup_server.cc:Signup():28] salt: $6$Gybm9OWautoMyChk$ encrypted_pwd: $6$Gybm9OWautoMyChk$nwbAmhvuGbTyfM4xkTayGq3F4AyTKXO4ZpsSJmTtJ4.UKd9NxUJW6Uvq/Cnv905zjAkeTPGmR3zbGKksfQ0.x0
+2025-05-01 16:35:47,271 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/signup_server/signup_server.cc:Signup():32] INSERT INTO CloudDisk.User(username, salt, passwd) VALUES('qwer', '$6$Gybm9OWautoMyChk$', '$6$Gybm9OWautoMyChk$nwbAmhvuGbTyfM4xkTayGq3F4AyTKXO4ZpsSJmTtJ4.UKd9NxUJW6Uvq/Cnv905zjAkeTPGmR3zbGKksfQ0.x0')
+2025-05-01 16:35:47,927 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/signup_server/signup_server.cc:operator()():59] Query OK, 1 row affected
+2025-05-01 16:39:51,255 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():30] CloudDiskServer start success!
+2025-05-01 16:41:55,751 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():30] CloudDiskServer start success!
+2025-05-01 16:42:04,407 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():30] CloudDiskServer start success!
+2025-05-01 16:46:15,894 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():30] CloudDiskServer start success!
+2025-05-01 16:47:53,162 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():30] CloudDiskServer start success!
+2025-05-01 16:52:46,117 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():30] CloudDiskServer start success!
+2025-05-01 17:00:24,948 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():30] CloudDiskServer start success!
+2025-05-01 17:00:58,076 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():30] CloudDiskServer start success!
+2025-05-01 17:02:38,363 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():30] CloudDiskServer start success!
+2025-05-01 17:04:06,880 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():30] CloudDiskServer start success!
+2025-05-01 17:04:49,478 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():30] CloudDiskServer start success!
+2025-05-05 21:24:12,801 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():31] CloudDiskServer start success!
+2025-05-05 21:26:51,767 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:operator()():96] SignupService ip = 127.0.0.1, port = 1412
+2025-05-05 21:26:51,770 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/signup_server/signup_server.cc:Signup():25] username: qewr password: qwer
+2025-05-05 21:26:51,773 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/signup_server/signup_server.cc:Signup():30] salt: $6$bPE6t8eJJIzXjYzS$ encrypted_pwd: $6$bPE6t8eJJIzXjYzS$3PMKaYLSdAQzF5kF4HMn3m.Le3zStJ5R5WnTXUE2BRAlu1kZfZT3Vk9tTcrxgm7ucXbG6EAt5iqU9pLgsADQ90
+2025-05-05 21:26:51,882 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/signup_server/signup_server.cc:operator()():66] Query OK, 1 row affected
+2025-05-05 21:28:51,292 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():31] CloudDiskServer start success!
+2025-05-05 21:29:09,083 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():31] CloudDiskServer start success!
+2025-05-05 21:30:07,045 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():31] CloudDiskServer start success!
+2025-05-05 21:31:42,892 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():31] CloudDiskServer start success!
+2025-05-05 21:31:45,422 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:operator()():171] 1 row in set
+2025-05-05 21:33:30,005 logger [INFO] [/home/mountain/workspace/CloudDisk/Draft00/src/CloudDiskServer.cc:start():31] CloudDiskServer start success!
