@@ -1,5 +1,4 @@
 #include "../include/CloudDiskServer.h"
-#include "../include/Token.h"
 #include "../include/Hash.h"
 #include "../include/EncryptPassword.h"
 #include "../include/SafePreparedStatement.h"
@@ -8,7 +7,8 @@
 #include <workflow/MySQLResult.h>
 #include <wfrest/json.hpp>
 #include <sys/stat.h> // for mkdir
-#include <fstream>    // for ofstream
+#include <fstream>
+#include <jwt-cpp/jwt.h>
 using std::map;
 using std::ofstream;
 using std::string;
@@ -45,6 +45,7 @@ void CloudDiskServer::loadModules()
     loadStaticResources();
     loadSignUpModule();
     loadSignInModule();
+    //@remind 浏览器会因为是http不让你post数据，所以可以用代理软件burpsuite发送数据给虚拟机，这样浏览器就能post了
 }
 // 加载静态资源
 void CloudDiskServer::loadStaticResources()
@@ -138,7 +139,7 @@ void CloudDiskServer::loadSignInModule()
             WFMySQLConnection *conn = new WFMySQLConnection(1);
             const string mysql_url = conf["mysql_url"];
             int ret = conn->init(mysql_url);
-            SafePreparedStatement stmt(conn, "SELECT salt, passwd FROM CloudDisk.User WHERE username = ? LIMIT 1", "stmt2", series);
+            SafePreparedStatement stmt(conn, "SELECT id, salt, passwd FROM CloudDisk.User WHERE username = ? LIMIT 1", "stmt2", series);
             stmt.setString(1, username);
             stmt.execute([resp, password, username, mysql_url, series](WFMySQLTask *mysql_task)
                          {
@@ -161,63 +162,70 @@ void CloudDiskServer::loadSignInModule()
                     return;
                 }
                 protocol::MySQLResultCursor cursor(mysql_resp);
-                if (cursor.get_cursor_status() == MYSQL_STATUS_GET_RESULT) {
-                    // 读操作正常执行
-                    vector<vector<protocol::MySQLCell>> rows; 
+                vector<vector<protocol::MySQLCell>> rows;
+                //@remind MYSQL_STATUS_GET_RESULT这里没有结果也会进入if语句，只是代表语句执行成功
+                if (cursor.get_cursor_status() == MYSQL_STATUS_GET_RESULT && (cursor.fetch_all(rows), !rows.empty()))
+                {
                     cursor.fetch_all(rows);
                     string rows_size = std::to_string(rows.size());
                     string suffix = rows.size() > 1 ? " rows in set." : " row in set";
                     string res = rows_size + suffix;
                     LogInfo("%s", res.c_str());
-                    //@todo 这段要研究token生成
-                    // if (rows[0][0].is_string() && rows[0][1].is_string()) {
-                    //     string salt = rows[0][0].as_string();
-                    //     string db_pwd = rows[0][1].as_string(); // 数据库中存储的对应用户的加密密码
-                    //     string in_pwd = encryptPassword(password, salt); // 加密用户登录输入的密码
-                    //     if (db_pwd == in_pwd) { // 登录成功
-                    //         // 生成Token
-                    //         Token token(username, salt);
-                    //         string gen_token = token.generateToken();
-                    //         // 将最新的Token写入Redis - 由Redis来控制token的过期时间
-                    //         const string redis_url = conf["redis_url"];
-                    //         auto redis_task = WFTaskFactory::create_redis_task(redis_url, 1, [redis_url, username, series](WFRedisTask* ){
-                    //             auto redis_task2 = WFTaskFactory::create_redis_task(redis_url ,1, nullptr);
-                    //             // 设置过期时间 - 30 * 60s - 30min
-                    //             // Web应用程序一般设置为15min~1h
-                    //             redis_task2->get_req()->set_request("EXPIRE", {username, "1800"});
-                    //             string cmd = "EXPIRE " + username + " 1800";
-                    //             LogInfo("%s", cmd.c_str());
-                    //             series->push_back(redis_task2);
-                    //         });
-                    //         redis_task->get_req()->set_request("SET", {username, gen_token});
-                    //         string cmd = "SET " + username + " " + gen_token;
-                    //         LogInfo("%s", cmd.c_str());
-                    //         series->push_back(redis_task);
-                    //         // token写入MySQL 已经写好了就不删了
-                    //         // 将最新的Token写入MySQL - replace
-                    //         // 这里就不再对写入数据库后的结果做判断了
-                    //         auto mysql_task2 = WFTaskFactory::create_mysql_task(mysql_url, 1, nullptr);
-                    //         string sql2 = "REPLACE INTO cloud_disk.tbl_user_token (user_name, user_token) VALUES ('";
-                    //         sql2 += username + "', '" + gen_token + "')";
-                    //         LogInfo("%s", sql2.c_str());
-                    //         mysql_task2->get_req()->set_query(sql2.c_str());
-                    //         series->push_back(mysql_task2);
-                    //         // 响应
-                    //         // 登录成功的话 前端页面需要服务器返回一个json
-                    //         using Json = nlohmann::json;
-                    //         Json resp_json;
-                    //         Json data;
-                    //         data["Token"] = gen_token;
-                    //         data["Username"] = username;
-                    //         data["Location"] = "/static/view/home.html"; // 注意：这里返回的是route，而不是服务器中home.html的存放路径
-                    //         resp_json["data"] = data;
-                    //         /* resp->Json(resp_json); */
-                    //         // 不能直接发送一个json，前端解析不出来，只能发送一个string
-                    //         resp->String(resp_json.dump());
-                    //         LogInfo(resp_json.dump().c_str());
-                    //     } else { resp->String("FAILED"); }
-                    // } else { resp->String("FAILED"); }
-                } else { resp->String("FAILED"); } 
+                    //@log 这段要研究token生成
+                    //@todo 试试jwt
+                    if (rows[0][0].is_ulonglong() && rows[0][1].is_string() && rows[0][2].is_string())
+                    {
+                        //@info 这里注意user_id是bigInt
+                        //@info qq的用户名可以重复是因为那不是个唯一键，唯一键是qq号，那么我这里的唯一键就是用户名,用户id
+                        uint64_t user_id = rows[0][0].as_ulonglong();
+                        string salt = rows[0][1].as_string();
+                        string db_pwd = rows[0][2].as_string();          // 数据库中存储的对应用户的加密密码
+                        string in_pwd = encryptPassword(password, salt); // 加密用户登录输入的密码
+                        if (db_pwd == in_pwd)
+                        { // 登录成功
+                            //@info 这个user_id转换为string更好一点，不然不同类型int不兼容
+                            string gen_token = jwt::create()
+                                                   .set_issuer("example.com")
+                                                   .set_type("JWS")
+                                                   .set_payload_claim("username", jwt::claim(username))
+                                                   .set_expires_at(std::chrono::system_clock::now() + std::chrono::seconds(600))
+                                                   .sign(jwt::algorithm::hs256{"Mountain"});
+                            const string redis_url = conf["redis_url"];
+                            auto redis_task = WFTaskFactory::create_redis_task(redis_url, 1, nullptr);
+                            //@incomplete 这种后续都要做执行是否成功判断
+                            redis_task->get_req()->set_request("SET", {username, gen_token});
+                            string cmd = "SET " + username + " " + gen_token;
+                            LogInfo("%s", cmd.c_str());
+                            series->push_back(redis_task);
+                            //@log 不想再用mysql存储token了
+                            // 响应
+                            // 登录成功的话 前端页面需要服务器返回一个json
+                            using Json = nlohmann::json;
+                            Json resp_json;
+                            Json data;
+                            data["Token"] = gen_token;
+                            data["Username"] = username;
+                            data["Location"] = "/static/view/home.html"; // 注意：这里返回的是route，而不是服务器中home.html的存放路径
+                            resp_json["data"] = data;
+                            /* resp->Json(resp_json); */
+                            // 不能直接发送一个json，前端解析不出来，只能发送一个string
+                            resp->String(resp_json.dump());
+                            LogInfo(resp_json.dump().c_str());
+                        }
+                        else
+                        {
+                            resp->String("FAILED");
+                        }
+                    }
+                    else
+                    {
+                        resp->String("FAILED");
+                    }
+                }
+                else
+                {
+                    resp->String("FAILED");
+                } 
         });
         } });
 }

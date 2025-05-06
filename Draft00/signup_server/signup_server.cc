@@ -58,7 +58,8 @@ public:
                 return;
             }
             protocol::MySQLResultCursor cursor(mysql_resp);
-            if (cursor.get_cursor_status() == MYSQL_STATUS_OK)
+            //@remind 这里不需要判断是否有结果，因为本身就没有结果，只是看影响了几行
+            if (cursor.get_cursor_status() == MYSQL_STATUS_GET_RESULT)
             {
                 int affected_rows = cursor.get_affected_rows();
                 string suffix = affected_rows > 1 ? " rows affected" : " row affected";
