@@ -54,7 +54,7 @@ void CloudDiskServer::loadStaticResources()
                     { resp->File(conf["signup_html"]); });
     http_server.GET("/user/signin", [](const HttpReq *, HttpResp *resp)
                     { resp->File(conf["signin_html"]); });
-    http_server.GET("/static/view/home.html", [](const HttpReq *, HttpResp *resp)
+    http_server.GET("/user/home.html", [](const HttpReq *, HttpResp *resp)
                     { resp->File(conf["home_html"]); });
     http_server.GET("/static/js/auth.js", [](const HttpReq *, HttpResp *resp)
                     { resp->File(conf["auth_js"]); });
