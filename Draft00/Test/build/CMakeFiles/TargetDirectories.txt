@@ -1,4 +1,0 @@
-/home/mountain/workspace/CloudDisk/Draft00/Test/build/CMakeFiles/tain.dir
-/home/mountain/workspace/CloudDisk/Draft00/Test/build/CMakeFiles/test.dir
-/home/mountain/workspace/CloudDisk/Draft00/Test/build/CMakeFiles/edit_cache.dir
-/home/mountain/workspace/CloudDisk/Draft00/Test/build/CMakeFiles/rebuild_cache.dir

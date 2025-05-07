@@ -1,1 +1,0 @@
-/usr/bin/g++ -g CMakeFiles/signupserver.dir/SafePreparedStatement.cc.o CMakeFiles/signupserver.dir/signup.pb.cc.o CMakeFiles/signupserver.dir/signup_server.cc.o -o ../signupserver  -llog4cpp -lssl -lcrypto -lcrypt -lppconsul -lsrpc -llz4 -lsnappy -lprotobuf -lworkflow 

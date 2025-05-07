@@ -1,4 +1,0 @@
-/home/mountain/workspace/CloudDisk/Draft00/signup_server/build/CMakeFiles/signupserver.dir
-/home/mountain/workspace/CloudDisk/Draft00/signup_server/build/CMakeFiles/test.dir
-/home/mountain/workspace/CloudDisk/Draft00/signup_server/build/CMakeFiles/edit_cache.dir
-/home/mountain/workspace/CloudDisk/Draft00/signup_server/build/CMakeFiles/rebuild_cache.dir

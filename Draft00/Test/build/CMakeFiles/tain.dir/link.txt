@@ -1,1 +1,0 @@
-/usr/bin/g++ -g CMakeFiles/tain.dir/5_series_context.cpp.o -o /home/mountain/workspace/CloudDisk/Draft00/Test/Draft01/tain  -lpthread -lworkflow 
