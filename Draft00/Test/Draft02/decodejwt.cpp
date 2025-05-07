@@ -4,7 +4,7 @@
 
 int main()
 {
-    std::string token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXUyJ9.eyJleHAiOjE3NDY1MjM2NzcsImlzcyI6ImV4YW1wbGUuY29tIiwicm9sZSI6ImFkbWluIiwidXNlcm5hbWUiOiJBbGljZSJ9.1yKRP3cjVib3oxUtOWyhup9FQJqrod02Crg8lFsib5s";
+    std::string token = "eyJhbGciOiJIUzI1NiJ9.eyJ1c2VybmFtZSI6IkFsaWNlIn0.9OpdbqaztpbFA7pVRVmpIDH6QoD4v7UoSruH1yY-bQ8";
     try
     {
         // 1. 解码 token
